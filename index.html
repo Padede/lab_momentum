@@ -13,13 +13,35 @@
 <body>
   <header class="header">
     <div class="player">
-      <div class="player-controls">
-        <button class="play-prev player-icon"></button>
-        <button class="play player-icon"></button>
-        <button class="play-next player-icon"></button>
+        <div class="player-controls">
+          <button class="play-prev player-icon" onclick="prevMusic()"></button>
+          <button class="play player-icon" onclick="music(-1)"></button>
+          <button class="play-next player-icon" onclick="nextMusic()"></button>
+          <div class="volume">
+            <div class="volume_bar">
+              <img src="./assets/svg/volume.png" alt="" class="volume_img" id="volume_img" onclick="volumeOff()">
+              <input id="range" min="0" max="100" value="0" type="range" class="range">
+            </div>
+          </div>
+        </div>
+        <div class="player-info">
+          <div class="progress">           
+            <div class="progress-bar">
+              <div class="now"></div>
+            </div>
+            <span class="start">0:00</span>
+            <span class="centerr">/</span>
+            <span class="end"> 0:00</span>
+          </div>
+          
+        </div>
+        <ul class="play-list">
+          <li class="play-item" onclick=selectItem(id) id="0">Серега пират1</li>
+          <li class="play-item" onclick=selectItem(id) id="1">Серега пират2</li>
+          <li class="play-item" onclick=selectItem(id) id="2">Серега пират3</li>
+          <li class="play-item" onclick=selectItem(id) id="3">Серега пират4</li>
+        </ul>
       </div>
-      <ul class="play-list"></ul>
-    </div>
     <div class="weather">
       <input type="text" class="city" onchange="Weather()" />
       <i class="weather-icon owf" id="weatherimg"><img src="" class="afterbegin" alt=""></i>

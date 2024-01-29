@@ -178,3 +178,138 @@ slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
 
 window.addEventListener('load', setBg);
+
+// audio
+
+let ar=["assets/music/Серега Пират2.mp3","assets/music/Серега Пират3.mp3","assets/music/Серега Пират1.mp3","assets/music/Серега Пират4.mp3"];
+let currentMusic=0,active=false,playhelp=false;
+let audio=new Audio(ar[currentMusic]);
+let playBtn=document.querySelector(".play");
+let volume_img=document.getElementById("volume_img");
+let range = document.getElementById('range');
+audio.volume=0.05;
+range.value=5;
+function music(qq){   
+    let elems=document.querySelectorAll('.play-item');
+
+    for (let i=0;i<elems.length;i++){
+        elems[i].style.color="#FFF";
+    }
+    document.getElementById(currentMusic).style.color="green"; 
+    if (qq==1){
+        audio.src=ar[currentMusic];
+        audio.play();
+        active=true;
+        playhelp=true;
+        playBtn.style.backgroundImage="url(assets/svg/pause.svg)";
+        return;       
+    }
+
+    if (playhelp==false){
+        audio.src=ar[currentMusic];
+        audio.play();
+        playhelp=true;
+        playBtn.style.backgroundImage="url(assets/svg/pause.svg)";
+    }
+    else{
+        if (active==false){
+            active=true;
+            audio.play();
+            playBtn.style.backgroundImage="url(assets/svg/pause.svg)";
+        } 
+        else {
+            active=false;
+            audio.pause();
+            playBtn.style.backgroundImage="url(assets/svg/play.svg)"
+        }
+    }   
+}
+
+setInterval(checkMusic, 1000);
+
+function checkMusic(){
+    if (audio.ended) {nextMusic();}
+}
+
+
+function nextMusic(){
+    currentMusic++;
+    if (currentMusic>3) currentMusic=0;
+    music(1);
+}
+
+function prevMusic(){
+    currentMusic--;
+    if (currentMusic<0) currentMusic=3;
+    music(1);
+}
+
+let helpItem;
+function selectItem(id){   
+
+    currentMusic=id;
+    if(helpItem==id){
+        music();
+    }
+    else music(1)
+    helpItem=id;
+}
+
+const start = document.querySelector('.start')
+const end = document.querySelector('.end')
+const progressBar = document.querySelector('.progress-bar')
+const now = document.querySelector('.now')
+
+function conversion (value) {
+  let minute = Math.floor(value / 60)
+  minute = minute.toString().length === 1 ? ('0' + minute) : minute
+  let second = Math.round(value % 60)
+  second = second.toString().length === 1 ? ('0' + second) : second
+  return `${minute}:${second}`
+}
+
+audio.onloadedmetadata = function () {
+  end.innerHTML = conversion(audio.duration)
+  start.innerHTML = conversion(audio.currentTime)
+}
+
+progressBar.addEventListener('click', function (event) {
+  let coordStart = this.getBoundingClientRect().left
+  let coordEnd = event.pageX
+  let p = (coordEnd - coordStart) / this.offsetWidth
+  now.style.width = p.toFixed(3) * 100 + '%'
+
+  audio.currentTime = p * audio.duration
+  audio.play()
+})
+
+setInterval(() => {
+  start.innerHTML = conversion(audio.currentTime)
+  now.style.width = audio.currentTime / audio.duration.toFixed(3) * 100 + '%'
+}, 1000)
+
+
+
+range.onchange = function(){
+  audio.volume=this.value/100
+  helpVolume=true;
+}
+
+
+let helpVolume=true,levelVolume;
+function volumeOff(){
+    if (audio.duration>0){
+        if (helpVolume==true){
+            levelVolume=range.value;
+            audio.volume=0;
+            helpVolume=false;
+            volume_img.style.backgroundImage="url(assets/svg/volumeoff.png)";
+        }
+        else {
+            audio.volume=levelVolume/100;
+            range.value=levelVolume;
+            helpVolume=true;
+            volume_img.style.backgroundImage="url(assets/svg/volume.png)";
+        }
+    }
+}
