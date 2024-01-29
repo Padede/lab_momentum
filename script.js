@@ -14,6 +14,10 @@ let state = {
     dogLover: false,
   };
 
+  function getRandomNum(max = 20) {
+    return Math.floor(Math.random() * max) + 1;
+  }
+
 
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
@@ -100,3 +104,22 @@ function Weather(){
         document.querySelector(".afterbegin").src="";
     })
 }
+
+
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+const changeQuoteButton = document.querySelector('.change-quote');
+let currentQuoteNumber;
+
+async function getQuotes() {
+  const quotes = './quotesData.json';
+  const res = await fetch(quotes);
+  const data = await res.json();
+  const quoteNum = getRandomNum(data.length) - 1;
+  currentQuoteNumber = quoteNum;
+  quote.textContent = data[quoteNum][`text-${state.language}`];
+  author.textContent = data[quoteNum][`author-${state.language}`];
+}
+
+window.addEventListener('load', getQuotes);
+changeQuoteButton.addEventListener('click', getQuotes);
