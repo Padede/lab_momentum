@@ -80,3 +80,23 @@ nameInput.addEventListener('change', () => {
   nameInput.blur();
 });
 nameInput.addEventListener('input', setNameInputWidth);
+
+
+function Weather(){
+    
+    let apiKey="7b68f4e59179a584892201957c6bd6c1";
+    let city=document.querySelector('.city').value;
+    let url=`http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&units=metric&appid=${apiKey}`;
+    axios.get(url).then(res => {
+    document.querySelector('.temperature').innerHTML = Math.floor(res.data.main.temp) + '°С' + " " +res.data.weather[0].main;
+    document.querySelector('.humidity').innerHTML = "Humidity: " + Math.floor(res.data.main.humidity) + '%'
+    document.querySelector('.wind').innerHTML = 'Wind speed: ' + Math.floor(res.data.wind.speed) + " m/s"
+    let secondImage = document.getElementById('weatherimg');
+    document.querySelector(".afterbegin").src=`http://openweathermap.org/img/wn/${res.data.weather[0].icon}@2x.png`;
+    }).catch(err=>{
+        document.querySelector('.temperature').innerHTML="Error! city not found!";
+        document.querySelector('.humidity').innerHTML="";
+        document.querySelector('.wind').innerHTML="";
+        document.querySelector(".afterbegin").src="";
+    })
+}

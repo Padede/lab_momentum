@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="owfont-regular.css" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <title>momentum</title>
 </head>
 <body>
@@ -18,8 +21,8 @@
       <ul class="play-list"></ul>
     </div>
     <div class="weather">
-      <input type="text" class="city" />
-      <i class="weather-icon owf"></i>
+      <input type="text" class="city" onchange="Weather()" />
+      <i class="weather-icon owf" id="weatherimg"><img src="" class="afterbegin" alt=""></i>
       <div class="weather-error"></div>
       <div class="description-container">
         <span class="temperature"></span>
