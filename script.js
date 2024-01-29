@@ -123,3 +123,58 @@ async function getQuotes() {
 
 window.addEventListener('load', getQuotes);
 changeQuoteButton.addEventListener('click', getQuotes);
+
+
+const slideNext = document.querySelector('.slide-next');
+const slidePrev = document.querySelector('.slide-prev');
+
+let randomNum = getRandomNum();
+
+async function getLinkToImage() {
+  const timeOfDay = getTimeOfDay();
+  const tag = state.photoTag || timeOfDay;
+  let link;
+  if (state.photoSource === 'github') {
+    const bgNum = randomNum.toString().padStart(2, '0');
+    link = `https://raw.githubusercontent.com/Padede/stage1-tasks/assets/images//${timeOfDay}/${bgNum}.jpg`;
+  } else if (state.photoSource === 'unsplash') {
+    const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${tag}&client_id=oKOX10jBU_QzyHNFymlrF67_Esu3hx44mE1CRW5SO88`;
+    const res = await fetch(url);
+    const data = await res.json();
+    link = data.urls.regular;
+  } else if (state.photoSource === 'flickr') {
+    const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=f29a10c99c597ccca9ef72ae92a09f1c&tags=${tag}&extras=url_l&format=json&nojsoncallback=1`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const bgNum = getRandomNum(data.photos.photo.length - 1);
+    link = data.photos.photo[bgNum].url_l;
+  }
+  return link;
+}
+
+async function setBg() {
+  const img = new Image();
+  img.src = await getLinkToImage();
+  img.onload = () => {
+    document.body.style.backgroundImage = `url(${img.src})`;
+  };
+}
+
+function getSlideNext() {
+  if (state.photoSource === 'github') {
+    randomNum = randomNum === 20 ? 1 : randomNum + 1;
+  }
+  setBg();
+}
+
+function getSlidePrev() {
+  if (state.photoSource === 'github') {
+    randomNum = randomNum === 1 ? 20 : randomNum - 1;
+  }
+  setBg();
+}
+
+slideNext.addEventListener('click', getSlideNext);
+slidePrev.addEventListener('click', getSlidePrev);
+
+window.addEventListener('load', setBg);
