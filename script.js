@@ -313,3 +313,126 @@ function volumeOff(){
         }
     }
 }
+
+
+// ToDo 
+
+const todo = document.querySelector('.todo-list');
+const todoBtn = document.querySelector('.todo-list_icon');
+const todoHeaders = document.querySelectorAll('.todo-header');
+const todoInput = document.querySelector('.todo-input');
+const todoAddBtn = document.querySelector('.todo-add');
+const todoList = document.querySelector('.todo-list-todo');
+const doneList = document.querySelector('.todo-list-todo_done');
+
+let todoArray = [];
+let doneArray = [];
+
+function openTodo(e) {
+  todo.classList.toggle('todo-hidden');
+  // e.stopPropagation();
+  if (!todo.classList.contains('todo-hidden')) {
+    document.body.addEventListener('click', function closeTodo(e) {
+      // console.log('close todo');
+      if (!e.target.closest('.todo-list') && e.target !== todoBtn) {
+        todo.classList.add('todo-hidden');
+        document.body.removeEventListener('click', closeTodo);
+      }
+    });
+  }
+}
+
+function addTodo(e) {
+  if (todoInput.value === '') {
+    return;
+  }
+  const todo = {
+    id: Date.now().toString(),
+    text: todoInput.value,
+  };
+  todoArray.push(todo);
+  todoInput.value = '';
+  if (e.target === todoAddBtn) {
+    todoInput.blur();
+  }
+  renderTodos();
+}
+
+function createTodoElement(todo, done = false) {
+  const checkbox = document.createElement('i');
+  checkbox.classList.add(
+    'fa-regular',
+    done ? 'fa-square-check' : 'fa-square',
+    'todo-checkbox'
+  );
+  checkbox.addEventListener('click', handleCheckboxClick);
+  const todoText = document.createElement('span');
+  todoText.classList.add('todo-text');
+  todoText.textContent = todo.text;
+  const deleteBtn = document.createElement('i');
+  deleteBtn.classList.add('fa-solid', 'fa-trash', 'todo-trashcan');
+  deleteBtn.addEventListener('click', handleDeleteBtnClick);
+  const todoElement = document.createElement('li');
+  todoElement.classList.add('todo-list-item');
+  if (done) {
+    todoElement.classList.add('todo-list-item_done');
+  }
+  todoElement.setAttribute('data-id', todo.id);
+  todoElement.appendChild(checkbox);
+  todoElement.appendChild(todoText);
+  todoElement.appendChild(deleteBtn);
+  return todoElement;
+}
+
+function renderTodos() {
+  todoList.innerHTML = '';
+  todoArray.forEach((todo) => {
+    const todoElement = createTodoElement(todo);
+    todoList.appendChild(todoElement);
+  });
+  doneList.innerHTML = '';
+  doneArray.forEach((done) => {
+    const todoElement = createTodoElement(done, true);
+    doneList.appendChild(todoElement);
+  });
+}
+
+function handleCheckboxClick(e) {
+  e.stopPropagation();
+  const todoElement = e.target.closest('.todo-list-item');
+  const id = todoElement.dataset.id;
+  if (e.target.closest('.todo-list-item_done')) {
+    doneArray = doneArray.filter((todo) => {
+      if (todo.id === id) {
+        todoArray.push(todo);
+        return false;
+      }
+      return true;
+    });
+  } else {
+    todoArray = todoArray.filter((todo) => {
+      if (todo.id === id) {
+        doneArray.push(todo);
+        return false;
+      }
+      return true;
+    });
+  }
+  renderTodos();
+}
+
+function handleDeleteBtnClick(e) {
+  e.stopPropagation();
+  const todoElement = e.target.closest('.todo-list-item');
+  const id = todoElement.dataset.id;
+  todoArray = todoArray.filter((todo) => todo.id !== id);
+  doneArray = doneArray.filter((todo) => todo.id !== id);
+  renderTodos();
+}
+
+window.addEventListener('load', renderTodos);
+
+todoBtn.addEventListener('click', openTodo);
+
+todoInput.addEventListener('change', addTodo);
+todoAddBtn.addEventListener('click', addTodo);

@@ -67,10 +67,60 @@
     </div>
   </main>
   <footer class="footer">
-    <button class="change-quote"></button>
+    <div class="quote-selection">
+      <button class="change-quote"></button>
     <div>
       <div class="quote"></div>
       <div class="author"></div>
+    </div>
+    </div>  
+    <div class="footer-links">
+      <div class="todo-list-container widget hidden" data-widget-name="todo">
+        <div class="todo-list todo-hidden">
+          <h3 class="todo-header">To Do</h3>
+          <ul class="todo-list-todo">
+            <li class="todo-list-item">
+              <i class="fa-regular fa-square todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+            <li class="todo-list-item">
+              <i class="fa-regular fa-square todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+            <li class="todo-list-item">
+              <i class="fa-regular fa-square todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+          </ul>
+          <div class="todo-input-container">
+            <input type="text" class="todo-input" placeholder="[Add todo]">
+            <i class="fa-regular fa-plus todo-add"></i>
+          </div>
+          <h3 class="todo-header">Done</h3>
+          <ul class="todo-list-todo todo-list-todo_done">
+            <li class="todo-list-item todo-list-item_done">
+              <i class="fa-regular fa-square-check todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+            <li class="todo-list-item todo-list-item_done">
+              <i class="fa-regular fa-square-check todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+            </li>
+            <li class="todo-list-item todo-list-item_done">
+              <i class="fa-regular fa-square-check todo-checkbox"></i>
+              <span class="todo-text"></span>
+              <i class="fa-solid fa-trash todo-trashcan"></i>
+            </li>
+          </ul>
+        </div>
+        <i class="fa-solid fa-list-check todo-list_icon">ToDo</i>
+      </div>
     </div>
   </footer>
   <script src="script.js"></script>
