@@ -1,18 +1,41 @@
-let state = {
-    language: 'en',
-    photoSource: 'github',
-    photoTag: '',
-    widgets: new Set([
-      'time',
-      'date',
-      'greeting',
-      'quote',
-      'weather',
-      'player',
-      'todo',
-    ]),
-    dogLover: false,
-  };
+
+const city = document.querySelector('.city');
+// local storage
+
+
+function setLocalStorage() {
+  localStorage.setItem('name', nameInput.value);
+  localStorage.setItem('city', city.value);
+  state.widgets = Array.from(state.widgets);
+  localStorage.setItem('state', JSON.stringify(state));
+  localStorage.setItem('todoArray', JSON.stringify(todoArray));
+  localStorage.setItem('doneArray', JSON.stringify(doneArray));
+}
+window.addEventListener('beforeunload', setLocalStorage);
+
+function getLocalStorage() {
+  if (localStorage.getItem('name')) {
+    nameInput.value = localStorage.getItem('name');
+  }
+  if (localStorage.getItem('city')) {
+    city.value = localStorage.getItem('city');
+  } else {
+    city.value = 'Astana';
+  }
+  if (localStorage.getItem('state')) {
+    state = JSON.parse(localStorage.getItem('state'));
+    state.widgets = new Set(state.widgets);
+  }
+  if (localStorage.getItem('todoArray')) {
+    todoArray = JSON.parse(localStorage.getItem('todoArray'));
+  }
+  if (localStorage.getItem('doneArray')) {
+    doneArray = JSON.parse(localStorage.getItem('doneArray'));
+  }
+  Weather();
+}
+window.addEventListener('load', getLocalStorage);
+
 
   function getRandomNum(max = 20) {
     return Math.floor(Math.random() * max) + 1;
@@ -48,9 +71,6 @@ function showDate() {
   };
   let currentDate = new Date().toLocaleDateString(state.language, dateOptions);
   currentDate = currentDate.replace(/^./, (str) => str.toUpperCase());
-  // .split(' ')
-  // .map((word) => word.replace(/^./, (str) => str.toUpperCase()))
-  // .join(' ');
   date.textContent = currentDate;
 }
 
@@ -438,7 +458,21 @@ todoInput.addEventListener('change', addTodo);
 todoAddBtn.addEventListener('click', addTodo);
 
 // settings
-
+let state = {
+  language: 'en',
+  photoSource: 'github',
+  photoTag: '',
+  widgets: new Set([
+    'time',
+    'date',
+    'greeting',
+    'quote',
+    'weather',
+    'player',
+    'todo',
+  ]),
+  dogLover: false,
+};
 const settings = document.querySelector('.settings');
 const settingsBtn = document.querySelector('.settings-img');
 const settingsOptions = document.querySelectorAll('.settings-option');
@@ -552,3 +586,5 @@ settingsOptions.forEach((option) => {
 
 tagInput.addEventListener('change', handleTagInputChange);
 tagClear.addEventListener('click', handleTagClearClick);
+
+

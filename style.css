@@ -285,6 +285,13 @@
     padding: 10px;
     text-align: right;
   }
+
+  .name-width {
+    display: inline-block;
+    position: absolute;
+    visibility: hidden;
+    white-space: pre;
+  }
   
   .name {
     flex: 1;
@@ -477,7 +484,6 @@
   }
 
   .settings-container {
-    width: 205px;
     height: 61px;
     text-align: left;
     position: relative;
