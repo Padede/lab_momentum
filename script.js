@@ -587,4 +587,115 @@ settingsOptions.forEach((option) => {
 tagInput.addEventListener('change', handleTagInputChange);
 tagClear.addEventListener('click', handleTagClearClick);
 
+// translate
+
+const settingsHeaders = document.querySelectorAll('.settings-header');
+const settingsTranslation = {
+  Language: 'Язык',
+  Images: 'Картинки',
+  Widgets: 'Виджеты',
+  Weather: 'Погода',
+  Player: 'Музыка',
+  'ToDo List': 'Список дел',
+  Quote: 'Цитата дня',
+  Greeting: 'Приветствие',
+  Date: 'Дата',
+  Time: 'Время',
+  '[Add a tag]': '[Добавьте тэг]',
+};
+Object.keys(settingsTranslation).forEach((word) => {
+  let newKey = settingsTranslation[word];
+  settingsTranslation[newKey] = word;
+});
+
+function translateApp(language) {
+  translateWeather(language);
+  translateDate();
+  translateGreeting(language);
+  translateQuote(language);
+  translateSettings();
+  translateTodo(language);
+}
+
+function translateWeather(language) {
+  if (language === 'ru') {
+    if (city.value === 'Astana') {
+      city.value = 'Астана';
+    }
+    city.setAttribute('placeholder', '[Введите город]');
+  } else {
+    if (city.value === 'Астана') {
+      city.value = 'Astana';
+    }
+    city.setAttribute('placeholder', '[Enter city]');
+  }
+  Weather();
+}
+
+function translateDate() {
+  showDate();
+}
+
+function translateGreeting(language) {
+  showGreeting();
+  if (language === 'ru') {
+    nameInput.setAttribute('placeholder', '[Введите имя]');
+  } else {
+    nameInput.setAttribute('placeholder', '[Enter name]');
+  }
+  setNameInputWidth();
+}
+
+async function translateQuote(language) {
+  const quotes = '/quotesData.json';
+  const res = await fetch(quotes);
+  const data = await res.json();
+  if (!currentQuoteNumber) {
+    currentQuoteNumber = getRandomNum(data.length) - 1;
+  }
+  quote.textContent = data[currentQuoteNumber][`text-${language}`];
+  author.textContent = data[currentQuoteNumber][`author-${language}`];
+}
+
+function translateSettings() {
+  if (state.language !== settings.dataset.language) {
+    settingsHeaders.forEach((header) => {
+      const translation =
+        settingsTranslation[header.textContent.trim().slice(0, -1)];
+      header.textContent = translation + ':' || header.textContent;
+    });
+    settingsOptions.forEach((option) => {
+      const translation =
+        settingsTranslation[option.firstChild.textContent.trim()];
+      option.firstChild.textContent =
+        translation || option.firstChild.textContent;
+    });
+    tagInput.setAttribute(
+      'placeholder',
+      settingsTranslation[tagInput.placeholder]
+    );
+  }
+  settings.dataset.language = state.language;
+}
+
+function translateTodo(language) {
+  if (language === 'ru') {
+    todoInput.setAttribute('placeholder', '[Добавьте задачу]');
+    todoHeaders[0].textContent = 'Список дел';
+    todoHeaders[1].textContent = 'Сделано';
+  } else {
+    todoInput.setAttribute('placeholder', '[Add todo]');
+    todoHeaders[0].textContent = 'To Do';
+    todoHeaders[1].textContent = 'Done';
+  }
+}
+
+console.log(`Лабораторный проект: Momentum. Выполнил: Потульский Б.А. Функции проекта: Отслеживание текущих времени и даты, окно приветствия зависит
+от времени суток, позволяет ввести имя которая будет храниться в local storage, подключена API openweather, которая позволяет отслеживать погоду в 
+веденном городе, реализовано todo, которая позволяет вести учет списка дел, на экране показываются цитаты значимых людей которые можно переключать, 
+позволяет прокручивать на слайдере фон приложения, реализован плеер, в котором можно слушать музыку, слева снизу находится окно настроек , 
+где можно поменять язык, убрать ненужные блоки(все настройки сохраняются в Local storage), 
+сменить путь загрузки картинок c: 1) github, там загрузка картинок зависит от времени суток. 2) API Unsplash загрузка случайных картинок. 
+3) API Flickr тут можно добавить тег и будут меняться картинки с этим тегом.  `);
+
 
