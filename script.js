@@ -436,3 +436,119 @@ todoBtn.addEventListener('click', openTodo);
 
 todoInput.addEventListener('change', addTodo);
 todoAddBtn.addEventListener('click', addTodo);
+
+// settings
+
+const settings = document.querySelector('.settings');
+const settingsBtn = document.querySelector('.settings-img');
+const settingsOptions = document.querySelectorAll('.settings-option');
+const widgets = document.querySelectorAll('.widget');
+const tagInput = document.querySelector('.settings-tag');
+const tagClear = document.querySelector('.settings-tag-clear');
+
+function openSettings(e) {
+  settings.classList.toggle('settings-hidden');
+  if (!settings.classList.contains('settings-hidden')) {
+    document.body.addEventListener('click', function closeSettings(e) {
+      if (!e.target.closest('.settings') && e.target !== settingsBtn) {
+        settings.classList.add('settings-hidden');
+        document.body.removeEventListener('click', closeSettings);
+      }
+    });
+  }
+}
+
+function handleToggleBtnClick(e) {
+  const option = e.currentTarget;
+  if (option.dataset.setting === 'widgets') {
+    if (state.widgets.has(option.dataset.value)) {
+      state.widgets.delete(option.dataset.value);
+    } else {
+      state.widgets.add(option.dataset.value);
+    }
+    displayWidgets();
+  } else if (option.dataset.setting === 'language') {
+    state[option.dataset.setting] = option.dataset.value;
+    translateApp(state.language);
+  } else {
+    state[option.dataset.setting] = option.dataset.value;
+    setBg();
+  }
+  renderSettings();
+}
+
+function handleTagInputChange() {
+  state.photoTag = tagInput.value;
+  setBg();
+  if (
+    ['dog', 'dogs', 'puppy', 'puppys', 'puppies'].includes(tagInput.value) &&
+    !state.dogLover
+  ) {
+    playDogSong();
+  }
+  tagInput.blur();
+}
+
+function handleTagClearClick() {
+  if (!tagInput.hasAttribute('disabled')) {
+    tagInput.value = '';
+    if (state.photoTag) {
+      handleTagInputChange();
+    }
+    tagInput.focus();
+  }
+}
+
+function renderSettings() {
+  settingsOptions.forEach((option) => {
+    if (option.dataset.setting === 'language') {
+      if (option.dataset.value === state.language) {
+        option.childNodes[1].classList.add('settings-toggle-active');
+      } else {
+        option.childNodes[1].classList.remove('settings-toggle-active');
+      }
+    } else if (option.dataset.setting === 'photoSource') {
+      if (option.dataset.value === state.photoSource) {
+        option.childNodes[1].classList.add('settings-toggle-active');
+      } else {
+        option.childNodes[1].classList.remove('settings-toggle-active');
+      }
+    } else {
+      if (state.widgets.has(option.dataset.value)) {
+        option.childNodes[1].classList.add('settings-toggle-active');
+      } else {
+        option.childNodes[1].classList.remove('settings-toggle-active');
+      }
+    }
+  });
+  tagInput.value = state.photoTag;
+  if (state.photoSource === 'github') {
+    tagInput.setAttribute('disabled', 'true');
+    tagClear.classList.add('settings-tag-clear_disabled');
+    tagInput.value = '';
+  } else {
+    tagInput.removeAttribute('disabled');
+    tagClear.classList.remove('settings-tag-clear_disabled');
+  }
+}
+
+function displayWidgets() {
+  widgets.forEach((widget) => {
+    if (state.widgets.has(widget.dataset.widgetName)) {
+      widget.classList.remove('hidden');
+    } else {
+      widget.classList.add('hidden');
+    }
+  });
+}
+
+window.addEventListener('load', renderSettings);
+window.addEventListener('load', displayWidgets);
+
+settingsBtn.addEventListener('click', openSettings);
+settingsOptions.forEach((option) => {
+  option.addEventListener('click', handleToggleBtnClick);
+});
+
+tagInput.addEventListener('change', handleTagInputChange);
+tagClear.addEventListener('click', handleTagClearClick);

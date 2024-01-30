@@ -12,7 +12,7 @@
 </head>
 <body>
   <header class="header">
-    <div class="player">
+    <div class="player widget hidden" data-widget-name="player">
         <div class="player-controls">
           <button class="play-prev player-icon" onclick="prevMusic()"></button>
           <button class="play player-icon" onclick="music(-1)"></button>
@@ -42,7 +42,7 @@
           <li class="play-item" onclick=selectItem(id) id="3">Серега пират4</li>
         </ul>
       </div>
-    <div class="weather">
+    <div class="weather hidden widget" data-widget-name="weather">
       <input type="text" class="city" onchange="Weather()" />
       <i class="weather-icon owf" id="weatherimg"><img src="" class="afterbegin" alt=""></i>
       <div class="weather-error"></div>
@@ -59,15 +59,109 @@
       <button class="slide-prev slider-icon"></button>
       <button class="slide-next slider-icon"></button>
     </div>
-    <time class="time"></time>
-    <date class="date"></date>
-    <div class="greeting-container">
+    <time class="time widget hidden" data-widget-name="time"></time>
+    <date class="date widget hidden" data-widget-name="date"></date>
+    <div class="greeting-container widget hidden" data-widget-name="greeting">
       <span class="greeting"></span>
       <input type="text" class="name" />
     </div>
   </main>
   <footer class="footer">
-    <div class="quote-selection">
+    <div class="settings-container">
+      <div class="settings settings-hidden" data-language="en">
+        <div class="settings-language settings-section">
+          <h3 class="settings-header">Language:</h3>
+          <div class="settings-options">
+            <div class="settings-option" data-setting="language" data-value="en">
+              En
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="language" data-value="ru">
+              Ru
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-api settings-section">
+          <h3 class="settings-header">Images:</h3>
+          <div class="settings-options">
+            <div class="settings-option" data-setting="photoSource" data-value="github">
+              Github
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="photoSource" data-value="unsplash">
+              Unsplash
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="photoSource" data-value="flickr">
+              Flickr
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <input type="text" class="settings-tag" placeholder="[Add a tag]">
+            <i class="fa-solid fa-xmark settings-tag-clear"></i>
+          </div>
+        </div>
+        <div class="settings-widgets settings-section">
+          <h3 class="settings-header">Widgets:</h3>
+          <div class="settings-options">
+            <div class="settings-option" data-setting="widgets" data-value="weather">
+              Weather
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="player">
+              Player
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="todo">
+              ToDo List
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="quote">
+              Quote
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="greeting">
+              Greeting
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="date">
+              Date
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+            <div class="settings-option" data-setting="widgets" data-value="time">
+              Time
+              <div class="settings-toggle">
+                <div class="settings-toggle-inner"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <i class="fa-solid fa-gears settings-btn"><img src="/assets/svg/config.png" class="settings-img" alt=""></i>
+    </div>
+    <div class="quote-selection widget hidden" data-widget-name="quote">
       <button class="change-quote"></button>
     <div>
       <div class="quote"></div>

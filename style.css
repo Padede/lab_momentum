@@ -306,7 +306,7 @@
   .footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     width: 100%;
     height: 30vh;
     min-height: 160px;  
@@ -476,8 +476,163 @@
   background-size: 25px 20px;
   }
 
+  .settings-container {
+    width: 205px;
+    height: 61px;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+    top: 20px;
+  }
+  
+  .settings {
+    position: absolute;
+    bottom: 66px;
+    left: 35px;
+    width: 280px;
+    /* height: 400px; */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    transition: opacity 0.3s, visibility 0s;
+  }
+  
+  .settings-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s, visibility 0s 0.3s;
+  }
+  
+  .settings-section {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .settings-header {
+    font-weight: 400;
+    opacity: 0.9;
+  }
+  
+  .settings-section:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  
+  .settings-options {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+  
+  .settings-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.8;
+    transition: 0.3s;
+  }
+  
+  .settings-option:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  
+  .settings-toggle {
+    display: inline-flex;
+    align-items: center;
+    width: 40px;
+    height: 20px;
+    padding: 0 3px;
+    margin-left: 5px;
+    background-color: rgba(220, 220, 220);
+    border-radius: 10px;
+    /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+    box-shadow: rgba(10, 37, 64, 0.35) 0px 0px 6px 0px inset;
+    transition: 0.2s;
+  }
+  
+  .settings-toggle-active {
+    /* justify-content: end; */
+    background-color: #c5b358;
+  }
+  
+  .settings-toggle-inner {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: 0.2s;
+  }
+  
+  .settings-toggle-active > .settings-toggle-inner {
+    margin-left: 18px;
+  }
+  
+  .settings-tag {
+    display: inline-block;
+    width: 150px;
+    /* height: 34px; */
+    margin-bottom: -15px;
+    padding-right: 25px;
+    padding-bottom: 3px;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: right;
+    color: #fff;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid #fff;
+    background-color: transparent;
+    /* opacity: 0.9; */
+  }
+  
+  .settings-tag::placeholder {
+    font-size: 16px;
+    color: #fff;
+    opacity: 0.7;
+  }
+  
+  .settings-tag-clear {
+    position: relative;
+    bottom: 9px;
+    right: 7px;
+    font-size: 18px;
+    opacity: 0.9;
+    cursor: pointer;
+  }
+  
+  .settings-tag-clear_disabled {
+    cursor: default;
+  }
+  
+  .settings-tag-clear_disabled:hover {
+    opacity: 0.9;
+  }
+  
+  .settings-tag-clear_disabled:active {
+    transform: scale(1);
+  }
+  
+  .settings-btn {
+    font-size: 40px;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .settings-img{
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+
   .widget {
     transition: opacity 0.5s, visibility 0s;
+  }
+
+  .hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s, visibility 0s 0.5s;
   }
   
   @media (max-width: 768px) {
